@@ -1,21 +1,54 @@
 package com.job.portal.dto;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
 
+import java.time.LocalDateTime;
 
 public class JobDTO {
 
     private Long id;
+
+    @NotBlank(message = "Job title is required")
+    @Size(min = 3, max = 100, message = "Job title must be between 3 and 100 characters")
     private String jobTitle;
+
+    @NotBlank(message = "Company name is required")
+    @Size(min = 3, max = 100, message = "Company name must be between 3 and 100 characters")
     private String company;
+
+    @NotBlank(message = "Location is required")
+    @Size(min = 3, max = 100, message = "Location must be between 3 and 100 characters")
     private String location;
+
+    @NotBlank(message = "Job details are required")
     private String jobDetails;
+
+    @NotBlank(message = "Experience required is required")
+    @Size(min = 1, max = 50, message = "Experience required must be between 1 and 50 characters")
     private String experienceRequired;
-    private LocalDate postingDate;
+
+    @NotNull(message = "Creation date cannot be null")
+    private LocalDateTime createdAt;
+
+    @URL(message = "Apply link must be a valid URL")
     private String applyLink;
+
+    @NotBlank(message = "Salary is required")
     private String salary;
-    private String companyLogo;  // Image URL or Binary data
+
+    private String companyLogo;  // You may add @URL validation if you expect this to be a URL
+
+    @NotBlank(message = "Job type is required")
+    @Size(min = 3, max = 50, message = "Job type must be between 3 and 50 characters")
     private String jobType;
+
+    // Default constructor
+    public JobDTO() {}
+
+    // Getter and Setter Methods
 
     public Long getId() {
         return id;
@@ -65,12 +98,12 @@ public class JobDTO {
         this.experienceRequired = experienceRequired;
     }
 
-    public LocalDate getPostingDate() {
-        return postingDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setPostingDate(LocalDate postingDate) {
-        this.postingDate = postingDate;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getApplyLink() {
@@ -103,5 +136,21 @@ public class JobDTO {
 
     public void setJobType(String jobType) {
         this.jobType = jobType;
+    }
+
+    @Override
+    public String toString() {
+        return "JobDTO{" +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                ", jobDetails='" + jobDetails + '\'' +
+                ", experienceRequired='" + experienceRequired + '\'' +
+                ", createdAt=" + createdAt +
+                ", applyLink='" + applyLink + '\'' +
+                ", salary='" + salary + '\'' +
+                ", companyLogo='" + companyLogo + '\'' +
+                ", jobType='" + jobType + '\'' +
+                '}';
     }
 }

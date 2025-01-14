@@ -1,0 +1,6 @@
+2025-01-14T00:07:18.362+05:30 DEBUG 12000 --- [JobPortal] [http-nio-8080-exec-10] com.job.portal.service.JobServiceImpl    : Fetching total job count...
+2025-01-14T00:07:18.683+05:30  INFO 12000 --- [JobPortal] [http-nio-8080-exec-10] com.job.portal.service.JobServiceImpl    : Total job count: 6
+2025-01-14T00:07:18.689+05:30 DEBUG 12000 --- [JobPortal] [http-nio-8080-exec-1] com.job.portal.service.JobServiceImpl    : Fetching total job count...
+2025-01-14T00:07:18.693+05:30  INFO 12000 --- [JobPortal] [http-nio-8080-exec-1] com.job.portal.service.JobServiceImpl    : Total job count: 6
+2025-01-14T03:19:14.012+05:30  WARN 12000 --- [JobPortal] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h1m56s650ms816µs400ns).
+2025-01-14T09:56:29.361+05:30  WARN 12000 --- [JobPortal] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6h37m20s603ms715µs100ns).

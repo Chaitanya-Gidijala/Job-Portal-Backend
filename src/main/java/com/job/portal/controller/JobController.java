@@ -1,8 +1,8 @@
 package com.job.portal.controller;
 
 import com.job.portal.dto.JobDTO;
-import com.job.portal.entity.Job;
 import com.job.portal.service.JobService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,32 +23,66 @@ public class JobController {
 
     // Endpoint to get all jobs
     @GetMapping
-    public List<JobDTO> getJobs() {
-        return jobService.getAllJobs();
+    public ResponseEntity<List<JobDTO>> getJobs() {
+        List<JobDTO> jobs = jobService.getAllJobs();
+        if (jobs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(jobs);
     }
+
     @GetMapping("/type/{jobType}")
-    public List<JobDTO> getJobsByType(@PathVariable String jobType) {
-        return jobService.getJobsByType(jobType);
+    public ResponseEntity<List<JobDTO>> getJobsByType(@PathVariable String jobType) {
+        List<JobDTO> jobs = jobService.getJobsByType(jobType);
+        if (jobs == null || jobs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(jobs);
     }
+
+    // Endpoint to get the latest jobs sorted by the most recent posting time
+    @GetMapping("/latest")
+    public ResponseEntity<List<JobDTO>> getLatestJobs() {
+        List<JobDTO> jobs = jobService.getLatestJobs();
+        if (jobs.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(jobs);
+    }
+
     // Endpoint to get a specific job by ID
     @GetMapping("/{id}")
-    public JobDTO getJob(@PathVariable Long id) {
-        return jobService.getJobById(id);
+    public ResponseEntity<JobDTO> getJob(@PathVariable Long id) {
+        JobDTO jobDTO = jobService.getJobById(id);
+        if (jobDTO == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(jobDTO);  // Return HTTP 200 with the job details
     }
+
+    @GetMapping("/title/{jobTitle}")
+    public ResponseEntity<JobDTO> getJobByTitle(@PathVariable String jobTitle) {
+        // Replace hyphens with spaces before passing to the service
+        jobTitle = jobTitle.replace('-', ' ');
+
+        JobDTO jobDTO = jobService.getJobByTitle(jobTitle);  // Fetch the job by job title
+        if (jobDTO == null) {
+            return ResponseEntity.notFound().build();  // Return 404 if job not found
+        }
+        return ResponseEntity.ok(jobDTO);  // Return job details with HTTP 200
+    }
+
 
     // Endpoint to get the job count
     @GetMapping("/count")
-    public long getJobCount() {
-        return jobService.getJobCount();  // This returns the count of jobs
+    public ResponseEntity<Long> getJobCount() {
+        long count = jobService.getJobCount();
+        return ResponseEntity.ok(count);
     }
 
     @PostMapping
-    public ResponseEntity<JobDTO> createJob(@RequestBody JobDTO jobDTO) {
-        // Save the job
+    public ResponseEntity<JobDTO> createJob(@Valid @RequestBody JobDTO jobDTO) {
         JobDTO savedJob = jobService.saveJob(jobDTO);
-        // Return the saved job as a JobDTO (this will be converted to JSON)
-        return ResponseEntity.ok(savedJob);
+        return ResponseEntity.status(201).body(savedJob);
     }
-
-
 }

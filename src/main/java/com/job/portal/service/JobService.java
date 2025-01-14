@@ -10,5 +10,8 @@ public interface JobService {
     long getJobCount();
     JobDTO saveJob(JobDTO job);
     List<JobDTO> getJobsByType(String jobType);
+    List<JobDTO> getLatestJobs();
+
+    JobDTO getJobByTitle(String jobTitle);
 }
 
